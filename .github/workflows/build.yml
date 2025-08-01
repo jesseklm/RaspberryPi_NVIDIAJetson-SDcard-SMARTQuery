@@ -85,6 +85,6 @@ jobs:
         with:
           tag: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
-          files: ./artifacts/* 
+          artifacts: ./artifacts/*
           draft: false
           prerelease: false
