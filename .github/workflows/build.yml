@@ -21,14 +21,15 @@ jobs:
         run: |
           sudo apt-get update
           if [ "${{ matrix.arch }}" = "arm64" ]; then
-            sudo apt-get install -y gcc-aarch64-linux-gnu binutils-aarch64-linux-gnu git sparse
+            sudo apt-get install -y gcc-aarch64-linux-gnu binutils-aarch64-linux-gnu git sparse tree
           else
             # armv7 (armhf)
-            sudo apt-get install -y gcc-arm-linux-gnueabihf binutils-arm-linux-gnueabihf git sparse
+            sudo apt-get install -y gcc-arm-linux-gnueabihf binutils-arm-linux-gnueabihf git sparse tree
           fi
 
       - name: Clone upstream mmc-utils and replace
         run: |
+          tree
           git clone https://git.kernel.org/pub/scm/utils/mmc/mmc-utils.git mmc-utils-clone
           cp -a mmc-utils/* mmc-utils-clone/
 
@@ -54,12 +55,12 @@ jobs:
       - name: List build output
         working-directory: mmc-utils-clone
         run: |
-          ls -alh
+          tree
 
       - name: Package binary
         run: |
           tar -czf mmc-${{ matrix.arch }}.tar.gz -C mmc-utils-clone mmc
-          ls -lh
+          tree
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -79,8 +80,10 @@ jobs:
 
       - name: Collect archives
         run: |
+          sudo apt-get update
+          sudo apt-get install -y tree
+          tree
           find artifacts -name '*.tar.gz' -exec mv {} . \;
-          ls -1
   
       - name: Create GitHub Release and upload all artifacts
         uses: ncipollo/release-action@v1
