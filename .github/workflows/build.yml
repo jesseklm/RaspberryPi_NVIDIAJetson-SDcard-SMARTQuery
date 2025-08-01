@@ -52,8 +52,7 @@ jobs:
           make clean || true
           CC=$CC CFLAGS="$CFLAGS" make
 
-      - name: List build output
-        working-directory: mmc-utils-clone
+      - name: List all files
         run: |
           tree
 
@@ -80,10 +79,9 @@ jobs:
 
       - name: Collect archives
         run: |
-          sudo apt-get update
-          sudo apt-get install -y tree
           tree
-          find artifacts -name '*.tar.gz' -exec mv {} . \;
+          find artifacts -mindepth 2 -name 'mmc-*.tar.gz' -exec mv {} . \;
+          tree
   
       - name: Create GitHub Release and upload all artifacts
         uses: ncipollo/release-action@v1
