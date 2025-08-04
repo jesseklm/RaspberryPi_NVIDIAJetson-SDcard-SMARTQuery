@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        arch: [armv7, arm64]
+        arch: [amd64, arm64, armv7]
     env:
       CFLAGS: "-g -O2 -static"
     steps:
@@ -22,9 +22,10 @@ jobs:
           sudo apt-get update
           if [ "${{ matrix.arch }}" = "arm64" ]; then
             sudo apt-get install -y gcc-aarch64-linux-gnu binutils-aarch64-linux-gnu git sparse tree
-          else
-            # armv7 (armhf)
+          elif [ "${{ matrix.arch }}" = "armv7" ]; then
             sudo apt-get install -y gcc-arm-linux-gnueabihf binutils-arm-linux-gnueabihf git sparse tree
+          else
+            sudo apt-get install -y build-essential git sparse tree
           fi
 
       - name: Clone upstream mmc-utils and replace
@@ -37,7 +38,7 @@ jobs:
         run: |
           if [ "${{ matrix.arch }}" = "arm64" ]; then
             echo "CC=aarch64-linux-gnu-gcc" >> $GITHUB_ENV
-          else
+          elif [ "${{ matrix.arch }}" = "armv7" ]; then
             echo "CC=arm-linux-gnueabihf-gcc" >> $GITHUB_ENV
           fi
 
