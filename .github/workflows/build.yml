@@ -40,6 +40,8 @@ jobs:
             echo "CC=aarch64-linux-gnu-gcc" >> $GITHUB_ENV
           elif [ "${{ matrix.arch }}" = "armv7" ]; then
             echo "CC=arm-linux-gnueabihf-gcc" >> $GITHUB_ENV
+          else
+            echo "CC=gcc" >> $GITHUB_ENV
           fi
 
       - name: Show toolchain versions
