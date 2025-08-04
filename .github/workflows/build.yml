@@ -50,7 +50,6 @@ jobs:
       - name: Build
         working-directory: mmc-utils-clone
         run: |
-          make clean || true
           CC=$CC CFLAGS="$CFLAGS" make
 
       - name: List all files
