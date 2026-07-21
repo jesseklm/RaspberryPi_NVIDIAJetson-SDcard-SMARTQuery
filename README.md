@@ -4,8 +4,7 @@ Get S.M.A.R.T / CID data for Transcend Embedded microSD / SD products.
 
 -------------------------
 The various statuses of microSD products are located in the SMART block of the device. 
-By reading and analyzing the SMART block, you can get the product name, serial number, firmware version, Erase count, health, etc. of the device, so as to monitor and find the 
-device early potential problems. This document provides a way to use the MMC test tools called mmc-utils that get SMART block to enable SMART command via the native microSD slot or Transcend RDF5 Card Reader on Raspberry Pi / NVIDIA Jetson Nano. 
+By reading and analyzing the SMART block, you can get the product name, serial number, firmware version, Erase count, health, etc. of the device, so as to monitor and find the device early potential problems. This document provides a way to use the MMC test tools called mmc-utils that get SMART block to enable SMART command via the native microSD slot or Transcend RDF5 / RDC3 Card Reader on Raspberry Pi / NVIDIA Jetson Nano. 
 
 **Note : The project works for Transcend Embedded microSD / SD products.**
 
@@ -16,11 +15,12 @@ Hardware requirements
    - NVIDIA Jetson Nano
 
 2. Supported SD cards
-   - Transcend Embedded microSD 240I / 430T / 450I / 460I / 460T / 465T 
+   - Transcend Embedded microSD 240I / 430T / 450I / 460I / 460T / 465I  
    - Transcend Embedded SD SDC460T / SDC400I / SDC240I
 
 3. Supported Card Reader
    - Transcend RDF5
+   - Transcend RDC3
 
 Install Raspberry Pi OS
 -------------------------
@@ -94,7 +94,7 @@ Usage with native microSD or SD slot.
 ```
  sudo ./mmc sderase /dev/mmcblk0
 ```
-Usage with the RDF5 Card Reader
+Usage with the RDF5/RDC3 Card Reader
 -------------------------
 Please change the < device > parameter by the USB card reader device. ex. /dev/sda
 

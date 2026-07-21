@@ -3629,7 +3629,7 @@ int do_SMART_buffer_dump(int nargs, char **argv) /* Show SMART 512-byte buffer b
 	{
 		if (is_transcend_reader(device) == 1)
 		{
-			printf("Please use Transcend RDF5 card reader\n");
+			printf("Please use Transcend RDF5/RDC3 card reader\n");
 			exit(1);
 		}
 		ret = SCSI_CMD56(&fd, data_buff);
@@ -3675,7 +3675,7 @@ int show_SMART_info(int nargs, char **argv) /* Show SMART info (ex: Speed class/
 	{
 		if (is_transcend_reader(device) == 1)
 		{
-			printf("Please use Transcend RDF5 card reader\n");
+			printf("Please use Transcend RDF5/RDC3 card reader\n");
 			exit(1);
 		}
 		ret = SCSI_CMD56(&fd, data_buff);
@@ -3833,7 +3833,7 @@ int show_CID_info(int nargs, char **argv)
 	{
 		if (is_transcend_reader(device) == 1)
 		{
-			printf("Please use Transcend RDF5 card reader\n");
+			printf("Please use Transcend RDF5/RDC3 card reader\n");
 			exit(1);
 		}
 		type = "SD";
@@ -3861,6 +3861,8 @@ int show_CID_info(int nargs, char **argv)
 	printf("\n%s", value);
 	sprintf(value, "Product Revision:\t0x%01x%01x", cid_info->prv_major, cid_info->prv_minor);
 	printf("\n%s", value);
+	sprintf(value, "Product Serial Number:\t%08X", cid_info->psn);
+    printf("\n%s", value);
 	sprintf(value, "Manufacture Date:\t%u %s", 2000 + cid_info->mdt_year, months[cid_info->mdt_month]);
 	printf("\n%s", value);
 	sprintf(value, "CRC checksum:\t\t0x%02x", cid_info->crc);
@@ -3898,7 +3900,7 @@ int show_Health_info(int nargs, char **argv) /* Show Health */
 	{
 		if (is_transcend_reader(device) == 1)
 		{
-			printf("Please use Transcend RDF5 card reader\n");
+			printf("Please use Transcend RDF5/RDC3 card reader\n");
 			exit(1);
 		}
 		ret = SCSI_CMD56(&fd, data_buff);
@@ -4048,7 +4050,12 @@ int is_transcend_reader(char *device)
 	{
 		while (fgets(readbuf, 256, ptr) != NULL)
 		{
-			if (strstr(readbuf, TS_VID) != NULL)
+			if (strstr(readbuf, RDF5_VID) != NULL)
+			{
+				ret = 0;
+				break;
+			}
+			else if(strstr(readbuf, RDC3_VID) != NULL)
 			{
 				ret = 0;
 				break;
